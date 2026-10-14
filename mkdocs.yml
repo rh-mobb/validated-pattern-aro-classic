@@ -1,0 +1,74 @@
+site_name: ARO Classic MIWI Reference Deployment
+site_description: Terraform reference for Azure Red Hat OpenShift Classic with platform workload identities
+site_url: https://rh-mobb.github.io/validated-pattern-aro-classic/
+repo_url: https://github.com/rh-mobb/validated-pattern-aro-classic
+repo_name: rh-mobb/validated-pattern-aro-classic
+edit_uri: edit/main/docs/
+copyright: Community reference deployment documentation (rh-mobb/validated-pattern-aro-classic).
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: red
+      accent: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: red
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - include-markdown
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - toc:
+      permalink: true
+
+exclude_docs: |
+  superpowers/**
+  README.md
+
+validation:
+  nav:
+    omitted_files: ignore
+  links:
+    not_found: ignore
+    unrecognized_links: ignore
+    absolute_links: ignore
+
+nav:
+  - Home: index.md
+  - Prerequisites:
+      - Account: prerequisites/account.md
+  - Guides:
+      - Classic MIWI deploy: guides/classic-miwi.md
+  - Reference:
+      - Architecture: architecture.md

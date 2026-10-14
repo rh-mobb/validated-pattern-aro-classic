@@ -1,0 +1,39 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.tfstate.lock.info
+
+# Operator tfvars (committed example is un-ignored below)
+*.tfvars
+!clusters/aro-classic-miwi/terraform.tfvars
+
+# Per-cluster operator artifacts
+clusters/*/infrastructure.tfstate*
+clusters/*/.terraform/
+clusters/*/terraform.tfplan
+clusters/*/platform.json
+clusters/*/logs/
+
+# Kubeconfig and secrets
+.kube/
+*.kubeconfig
+kubeconfig
+tmp/
+
+# Agent artifacts
+docs/superpowers/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+.cursor/
+.claude/
+.venv-docs/
+site/
