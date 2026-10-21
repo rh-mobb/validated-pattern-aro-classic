@@ -66,9 +66,15 @@ validation:
 
 nav:
   - Home: index.md
+  - Getting Started:
+      - Quick Start: getting-started/quick-start.md
   - Prerequisites:
       - Account: prerequisites/account.md
+      - Full-Stack Deployment: prerequisites/full-stack.md
   - Guides:
       - Classic MIWI deploy: guides/classic-miwi.md
+      - GitOps bootstrap: guides/gitops.md
+      - Compute machine pools: guides/compute-machine-pools.md
+      - Virt example: guides/virt-example.md
   - Reference:
       - Architecture: architecture.md

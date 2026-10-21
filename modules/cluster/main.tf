@@ -34,12 +34,12 @@ resource "azapi_resource" "aro_cluster" {
         encryptionAtHost = var.encryption_at_host ? "Enabled" : "Disabled"
       }
       workerProfiles = [
-        {
-          name             = "worker"
-          vmSize           = var.worker_vm_size
-          diskSizeGB       = var.worker_disk_size_gb
-          subnetId         = var.worker_subnet_id
-          count            = var.worker_count
+        for name, p in var.worker_profiles : {
+          name             = name
+          vmSize           = p.vm_size
+          diskSizeGB       = coalesce(p.disk_size_gb, 128)
+          subnetId         = coalesce(try(p.subnet_id, null), var.worker_subnet_id)
+          count            = p.replicas
           encryptionAtHost = var.encryption_at_host ? "Enabled" : "Disabled"
         }
       ]

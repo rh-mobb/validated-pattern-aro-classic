@@ -8,11 +8,15 @@ CLUSTER_DIR := $(ROOT_DIR)/clusters/$(CLUSTER_PROFILE)
 TFVARS := $(CLUSTER_DIR)/terraform.tfvars
 TF_STATE := $(CLUSTER_DIR)/infrastructure.tfstate
 
+export TF_VAR_machinesets_directory := $(CLUSTER_DIR)/machinesets
+
 export TFVARS
 export CLUSTER := $(CLUSTER_PROFILE)
 export TF_DATA_DIR := $(abspath $(CLUSTER_DIR)/.terraform)
+# GNU Make exports recipe variables; do not let the profile name shadow scripts' CLUSTER_NAME.
+unexport CLUSTER_NAME
 
-.PHONY: check-cluster check-tfvars init plan apply destroy kubeconfig platform setup
+.PHONY: check-cluster check-tfvars init plan apply destroy kubeconfig show-credentials login machinesets machinesets-render bootstrap platform setup
 
 check-cluster:
 	@test -d "$(CLUSTER_DIR)" || (echo "Missing cluster directory $(CLUSTER_DIR)" >&2; exit 1)
@@ -25,9 +29,11 @@ init: check-tfvars
 		-backend-config="path=$(TF_STATE)"
 
 plan: init
+	@. "$(SCRIPTS)/lib.sh" && export_tf_var_pull_secret_path; \
 	terraform -chdir=$(TF_DIR) plan -var-file="$(TFVARS)"
 
 apply: init
+	@. "$(SCRIPTS)/lib.sh" && export_tf_var_pull_secret_path; \
 	terraform -chdir=$(TF_DIR) apply -auto-approve -var-file="$(TFVARS)"
 
 destroy: init
@@ -36,7 +42,25 @@ destroy: init
 
 kubeconfig: setup check-tfvars
 	@export TFVARS="$(TFVARS)"; \
-	bash $(SCRIPTS)/kubeconfig.sh
+	bash $(SCRIPTS)/credentials.sh request
+
+show-credentials: setup check-tfvars
+	@export TFVARS="$(TFVARS)"; \
+	bash $(SCRIPTS)/credentials.sh show
+
+login: setup check-tfvars
+	@export TFVARS="$(TFVARS)"; \
+	bash $(SCRIPTS)/credentials.sh login
+
+machinesets: login
+	bash $(SCRIPTS)/machinesets.sh apply
+
+machinesets-render: login
+	bash $(SCRIPTS)/machinesets.sh render
+
+bootstrap: machinesets
+	@export TFVARS="$(TFVARS)" CLUSTER="$(CLUSTER_PROFILE)"; \
+	bash $(SCRIPTS)/gitops-bootstrap.sh bootstrap
 
 platform: check-tfvars init
 	@export TFVARS="$(TFVARS)" CLUSTER_PROFILE="$(CLUSTER_PROFILE)"; \

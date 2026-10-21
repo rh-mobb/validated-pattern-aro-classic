@@ -11,5 +11,9 @@ output "resource_id" {
 }
 
 output "oidc_issuer_url" {
-  value = try(azapi_resource.aro_cluster.output.properties.oidcIssuerProfile.issuerUrl, "")
+  description = "Classic MIWI exposes issuer on clusterProfile.oidcIssuer (not HCP oidcIssuerProfile.issuerUrl)."
+  value = coalesce(
+    try(azapi_resource.aro_cluster.output.properties.clusterProfile.oidcIssuer, ""),
+    try(azapi_resource.aro_cluster.output.properties.oidcIssuerProfile.issuerUrl, "")
+  )
 }

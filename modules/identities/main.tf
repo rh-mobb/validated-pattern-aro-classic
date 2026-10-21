@@ -11,6 +11,11 @@ resource "azurerm_user_assigned_identity" "this" {
   name                = each.value
   location            = var.location
   resource_group_name = var.resource_group_name
+
+  # Tags may be injected by Azure Policy even without configured tags.
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "random_uuid" "role_assignment_names" {

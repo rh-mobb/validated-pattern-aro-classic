@@ -18,16 +18,24 @@ output "vnet_name" {
   value = azurerm_virtual_network.this.name
 }
 
+output "address_prefix" {
+  value = var.vnet_address_space
+}
+
+output "worker_subnet_name" {
+  value = azurerm_subnet.worker.name
+}
+
+output "worker_subnet_prefix" {
+  value = var.worker_subnet_prefix
+}
+
 output "control_plane_subnet_id" {
   value = azurerm_subnet.control_plane.id
 }
 
 output "worker_subnet_id" {
   value = azurerm_subnet.worker.id
-}
-
-output "route_server_subnet_id" {
-  value = azurerm_subnet.route_server.id
 }
 
 output "nsg_id" {

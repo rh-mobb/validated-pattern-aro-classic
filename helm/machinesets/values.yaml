@@ -1,0 +1,4 @@
+# Populated by Terraform (values.yaml) and scripts/machinesets.sh (discovered.yaml).
+initialWorkerPool: worker
+nodePools: {}
+machineSets: []

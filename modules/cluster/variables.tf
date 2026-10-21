@@ -48,19 +48,15 @@ variable "control_plane_vm_size" {
   default = "Standard_D8s_v5"
 }
 
-variable "worker_vm_size" {
-  type    = string
-  default = "Standard_D4s_v5"
-}
-
-variable "worker_count" {
-  type    = number
-  default = 3
-}
-
-variable "worker_disk_size_gb" {
-  type    = number
-  default = 128
+variable "worker_profiles" {
+  description = "ARM workerProfiles map (name -> vm_size, replicas, optional disk_size_gb, subnet_id)."
+  type = map(object({
+    vm_size      = string
+    replicas     = number
+    disk_size_gb = optional(number, 128)
+    subnet_id    = optional(string)
+    labels       = optional(map(string), {})
+  }))
 }
 
 variable "api_server_visibility" {

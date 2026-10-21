@@ -33,14 +33,8 @@ variable "control_plane_subnet_prefix" {
 
 variable "worker_subnet_prefix" {
   type        = string
-  default     = "10.0.2.0/23"
-  description = "Worker subnet CIDR."
-}
-
-variable "route_server_subnet_prefix" {
-  type        = string
-  default     = "10.0.12.0/26"
-  description = "RouteServerSubnet CIDR (/26 or larger)."
+  default     = "10.0.2.0/24"
+  description = "Worker subnet CIDR (must not overlap control_plane_subnet_prefix or reserved sibling CIDRs)."
 }
 
 variable "tags" {

@@ -12,6 +12,7 @@ override.tf.json
 # Operator tfvars (committed example is un-ignored below)
 *.tfvars
 !clusters/aro-classic-miwi/terraform.tfvars
+!clusters/aro-classic-virt/terraform.tfvars
 
 # Per-cluster operator artifacts
 clusters/*/infrastructure.tfstate*
@@ -37,3 +38,8 @@ docs/superpowers/
 .claude/
 .venv-docs/
 site/
+.history/
+references/
+# Generated per-profile Helm values, discovery and rendered MachineSets
+clusters/*/machinesets/*
+!clusters/*/machinesets/README.md

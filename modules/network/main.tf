@@ -4,6 +4,11 @@ resource "azurerm_resource_group" "this" {
   name     = var.resource_group_name
   location = var.location
   tags     = var.tags
+
+  # Azure Policy owns tag updates after creation.
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 locals {
@@ -17,6 +22,11 @@ resource "azurerm_virtual_network" "this" {
   resource_group_name = local.resource_group_name
   address_space       = [var.vnet_address_space]
   tags                = var.tags
+
+  # Azure Policy owns tag updates after creation.
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "azurerm_network_security_group" "this" {
@@ -24,6 +34,11 @@ resource "azurerm_network_security_group" "this" {
   location            = local.location
   resource_group_name = local.resource_group_name
   tags                = var.tags
+
+  # Azure Policy owns tag updates after creation.
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "azurerm_subnet" "control_plane" {
@@ -42,13 +57,6 @@ resource "azurerm_subnet" "worker" {
   address_prefixes                              = [var.worker_subnet_prefix]
   private_link_service_network_policies_enabled = false
   service_endpoints                             = ["Microsoft.Storage", "Microsoft.ContainerRegistry"]
-}
-
-resource "azurerm_subnet" "route_server" {
-  name                 = "RouteServerSubnet"
-  resource_group_name  = local.resource_group_name
-  virtual_network_name = azurerm_virtual_network.this.name
-  address_prefixes     = [var.route_server_subnet_prefix]
 }
 
 resource "azurerm_subnet_network_security_group_association" "control_plane" {

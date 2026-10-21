@@ -1,0 +1,16 @@
+{{- if empty .Values.machineSets }}
+{{- fail "No discovered MachineSets: use make cluster.<profile>.machinesets" }}
+{{- end }}
+{{- range .Values.machineSets }}
+---
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  name: {{ required "MachineSet name required" .metadata.name | quote }}
+  namespace: openshift-machine-api
+  labels:
+    {{- omit (.metadata.labels | default dict) "app.kubernetes.io/managed-by" | toYaml | nindent 4 }}
+    app.kubernetes.io/managed-by: Helm
+spec:
+  {{- .spec | toYaml | nindent 2 }}
+{{- end }}
