@@ -147,7 +147,7 @@ variable "node_pools" {
   }
 
   validation {
-    condition     = length(var.node_pools) == 0 || sum([for p in var.node_pools : p.replicas]) >= 1
+    condition     = length(var.node_pools) == 0 ? true : sum([for p in var.node_pools : p.replicas]) >= 1
     error_message = "At least one desired worker replica must remain."
   }
 }

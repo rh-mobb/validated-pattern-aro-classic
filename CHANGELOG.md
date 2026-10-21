@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Handle an empty `node_pools` map without evaluating `sum([])` on Terraform 1.9, while retaining the minimum worker replica check for explicit pools.
+
 ### Classic installer and worker lifecycle
 
 - Add the GitOps/ESO baseline, Key Vault integration and versioned virt-sibling platform contract, including the Classic `machine-api` federated credential.
