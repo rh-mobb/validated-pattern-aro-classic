@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Install ripgrep in CI for the shell test assertions.
 - Handle an empty `node_pools` map without evaluating `sum([])` on Terraform 1.9, while retaining the minimum worker replica check for explicit pools.
 
 ### Classic installer and worker lifecycle
