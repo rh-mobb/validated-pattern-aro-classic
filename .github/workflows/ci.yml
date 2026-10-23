@@ -15,7 +15,7 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y shellcheck bats jq
+          sudo apt-get install -y shellcheck bats jq ripgrep
           HELM_VERSION=v4.2.0
           curl -fsSL "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz" -o /tmp/helm.tar.gz
           tar -xzf /tmp/helm.tar.gz -C /tmp
